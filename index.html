@@ -20,15 +20,32 @@
   <meta name="twitter:description" content="Sumate al foro de River Plate más grande de Argentina. Registro gratuito.">
   <meta name="twitter:image" content="https://turivers3.b-cdn.net/original/4X/8/0/2/802115c7a4fc59235c460047c8c2e719e93d847b.png">
 
-  <!-- GA4 -->
+  <!-- GA4 + Google Ads con cross-domain linker -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PQZ64KB4ZD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-PQZ64KB4ZD');
+
+    // GA4 con cross-domain linker hacia turiver.com
+    // Esto pasa el gclid cuando el usuario navega a turiver.com para registrarse
+    gtag('config', 'G-PQZ64KB4ZD', {
+      'linker': {
+        'domains': ['turiver.com', 'www.turiver.com'],
+        'accept_incoming': true
+      }
+    });
+
+    // Evento cuando el usuario hace clic en un boton de registro
     function trackClick(method) {
-      gtag('event', 'registration_click', { event_category: 'engagement', event_label: method });
+      gtag('event', 'registration_click', {
+        event_category: 'engagement',
+        event_label: method
+      });
+      // Tambien enviamos conversion a Google Ads directamente
+      gtag('event', 'conversion', {
+        send_to: 'AW-5345795843'
+      });
     }
   </script>
 
